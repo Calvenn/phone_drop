@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
   qr_flutter: ^4.1.0
   process_run: ^0.12.3
+  http: ^0.13.5
+  path_provider: ^2.0.15
+  file_picker: ^6.1.1
   
 
   # The following adds the Cupertino Icons font to your application.
