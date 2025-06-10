@@ -105,8 +105,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
       if (response.statusCode == 200) {
         Directory? dir;
         if (Platform.isWindows) {
-          dir =
-              await getDownloadsDirectory(); 
+          dir = await getDownloadsDirectory();
         } else {
           dir = await getApplicationDocumentsDirectory();
         }
@@ -152,9 +151,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     if (_flaskProcess != null) {
       try {
         print("Killing Flask server process...");
-        _flaskProcess!.kill(
-          ProcessSignal.sigterm,
-        ); 
+        _flaskProcess!.kill(ProcessSignal.sigterm);
         final exitCode = await _flaskProcess!.exitCode.timeout(
           Duration(seconds: 5),
           onTimeout: () {
@@ -213,6 +210,11 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
         ? 'http://$_localIp:$_port'
         : 'Starting server...';
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Receive File'),
+        centerTitle: true,
+        backgroundColor: Colors.lightBlueAccent,
+      ),
       body: Center(
         child: _localIp == null
             ? CircularProgressIndicator()

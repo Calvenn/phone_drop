@@ -177,7 +177,11 @@ class _SenderState extends State<Sender> with WidgetsBindingObserver {
         : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Sender")),
+      appBar: AppBar(
+        title: Text("Sender"),
+        centerTitle: true,
+        backgroundColor: Colors.lightBlueAccent,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

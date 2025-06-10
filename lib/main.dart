@@ -27,7 +27,7 @@ class _MainState extends State<Main> {
               brightness: isDarkMode ? Brightness.dark : Brightness.light,
             ),
           ),
-          home: WidgetTree(title: 'Phone Drop'),
+          home: WidgetTree(title: '📲 PhoneDrop'),
         );
       },
     );

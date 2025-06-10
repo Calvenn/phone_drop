@@ -18,6 +18,7 @@ class WidgetTree extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
+        backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
             icon: ValueListenableBuilder(
