@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:phone_drop/Module/widget/widget_tree.dart';
 import 'package:phone_drop/data/Notifier.dart';
 
-void main() {
-  runApp(const Main());
+import 'package:window_manager/window_manager.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  windowManager.setTitle('Phone Drop');
+  runApp(Main());
 }
 
 class Main extends StatefulWidget {
@@ -20,6 +25,7 @@ class _MainState extends State<Main> {
       valueListenable: isDarkModeNotifier,
       builder: (BuildContext context, dynamic isDarkMode, Widget? child) {
         return MaterialApp(
+          title: 'Phone Drop',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(

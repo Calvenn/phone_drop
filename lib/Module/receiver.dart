@@ -109,11 +109,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final url = 'https://phone-drop.onrender.com';
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Receive File'),
-        centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
-      ),
+      appBar: AppBar(title: Text('Receive File'), centerTitle: true),
       body: Center(
         child: _localIp == null
             ? CircularProgressIndicator()
@@ -134,21 +130,13 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton.icon(
-                    onPressed: () async {
-                      //await _refreshServer();
-                    },
-                    icon: Icon(Icons.refresh),
-                    label: Text("Refresh QR"),
+                    onPressed: _downloadFile,
+                    icon: Icon(Icons.download),
+                    label: Text("Download File"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: _downloadFile,
-                    icon: Icon(Icons.download),
-                    label: Text("Download File"),
                   ),
                 ],
               ),

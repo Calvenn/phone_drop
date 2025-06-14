@@ -86,11 +86,7 @@ class _SenderState extends State<Sender> with WidgetsBindingObserver {
     final url = _localIp;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sender"),
-        centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
-      ),
+      appBar: AppBar(title: Text("Send File"), centerTitle: true),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

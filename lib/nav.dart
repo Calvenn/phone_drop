@@ -14,23 +14,17 @@ class NavBar extends StatelessWidget {
             NavigationDestination(
               icon: Icon(Icons.home_rounded),
               label: 'Home',
-              selectedIcon: Icon(
-                Icons.home_rounded,
-                color: Colors.blue,
-              ),
+              selectedIcon: Icon(Icons.home_rounded, color: Colors.blue),
             ),
             NavigationDestination(
-              icon: Icon(Icons.call_received_rounded),
+              icon: Icon(Icons.download),
               label: 'Receiver',
-              selectedIcon: Icon(
-                Icons.call_received_rounded,
-                color: Colors.blue,
-              ),
+              selectedIcon: Icon(Icons.download, color: Colors.blue),
             ),
             NavigationDestination(
-              icon: Icon(Icons.send_rounded),
+              icon: Icon(Icons.upload_file),
               label: 'Sender',
-              selectedIcon: Icon(Icons.send_rounded, color: Colors.blue),
+              selectedIcon: Icon(Icons.upload_file, color: Colors.blue),
             ),
           ],
           onDestinationSelected: (int value) {
