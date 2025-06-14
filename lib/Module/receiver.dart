@@ -24,15 +24,15 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _startServerAndShowQr().then((_) {
+    /*_startServerAndShowQr().then((_) {
       _startCountdownTimer(); // start the 10-min countdown timer here
-    });
+    });*/
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _killFlaskProcess();
+    //_killFlaskProcess();
     _countdownTimer?.cancel();
     super.dispose();
   }
@@ -53,7 +53,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     });
   }
 
-  Future<void> _startServerAndShowQr() async {
+  /* Future<void> _startServerAndShowQr() async {
     _localIp = await _getLocalIp();
     _port = await _findFreePort(5000);
 
@@ -84,7 +84,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     await _startServerAndShowQr();
     _startCountdownTimer(); // restart timer
   }
-
+*/
   Future<void> _downloadFile() async {
     if (_localIp == null || _port == null) {
       ScaffoldMessenger.of(
@@ -147,7 +147,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _killFlaskProcess() async {
+  /* Future<void> _killFlaskProcess() async {
     if (_flaskProcess != null) {
       try {
         print("Killing Flask server process...");
@@ -203,6 +203,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     }
     return null;
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +241,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
                   SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () async {
-                      await _refreshServer();
+                      //await _refreshServer();
                     },
                     icon: Icon(Icons.refresh),
                     label: Text("Refresh QR"),
