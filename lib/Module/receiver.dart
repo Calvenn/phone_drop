@@ -13,7 +13,6 @@ class Receiver extends StatefulWidget {
 }
 
 class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
-  Process? _flaskProcess;
   String? _localIp;
   int? _port;
 
@@ -24,67 +23,26 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    /*_startServerAndShowQr().then((_) {
-      _startCountdownTimer(); // start the 10-min countdown timer here
-    });*/
+    _startServerAndShowQr();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    //_killFlaskProcess();
     _countdownTimer?.cancel();
     super.dispose();
   }
 
-  void _startCountdownTimer() {
-    _countdownTimer?.cancel();
-    _remaining = Duration(minutes: 10);
-    _countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_remaining.inSeconds <= 0) {
-        timer.cancel();
-      } else {
-        if (!mounted)
-          return; // check if widget is still mounted before setState
-        setState(() {
-          _remaining = _remaining - Duration(seconds: 1);
-        });
-      }
+  Future<void> _startServerAndShowQr() async {
+    _port = 443; // HTTPS port
+    _localIp = "phone-drop.onrender.com";
+
+    setState(() {
+      // Trigger rebuild to show QR
+      print("QR Code URL: https://$_localIp"); // Debug
     });
   }
 
-  /* Future<void> _startServerAndShowQr() async {
-    _localIp = await _getLocalIp();
-    _port = await _findFreePort(5000);
-
-    if (_localIp == null || _port == null) {
-      print("Could not determine IP or port.");
-      return;
-    }
-
-    String pythonPath = 'python';
-    String flaskScriptPath =
-        'C:\\Coding\\phone_drop\\lib\\app.py'; // run as py installer
-
-    try {
-      _flaskProcess = await runProcess(pythonPath, [
-        flaskScriptPath,
-        _port.toString(),
-      ]);
-      print('Flask server started on $_localIp:$_port');
-      setState(() {});
-    } catch (e) {
-      print('Failed to start Flask server: $e');
-    }
-  }
-
-  Future<void> _refreshServer() async {
-    print("🔄 Refreshing Flask server...");
-    await _killFlaskProcess();
-    await _startServerAndShowQr();
-    _startCountdownTimer(); // restart timer
-  }
-*/
   Future<void> _downloadFile() async {
     if (_localIp == null || _port == null) {
       ScaffoldMessenger.of(
@@ -93,7 +51,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
       return;
     }
 
-    final url = 'http://$_localIp:$_port/download'; // Your Flask endpoint
+    final url = 'https://phone-drop.onrender.com/download';
 
     ScaffoldMessenger.of(
       context,
@@ -147,69 +105,9 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
     }
   }
 
-  /* Future<void> _killFlaskProcess() async {
-    if (_flaskProcess != null) {
-      try {
-        print("Killing Flask server process...");
-        _flaskProcess!.kill(ProcessSignal.sigterm);
-        final exitCode = await _flaskProcess!.exitCode.timeout(
-          Duration(seconds: 5),
-          onTimeout: () {
-            print("Process didn't exit, forcing kill...");
-            _flaskProcess!.kill(
-              ProcessSignal.sigkill,
-            ); // force kill if not exiting
-            return -1;
-          },
-        );
-        print("Flask server exited with code $exitCode");
-      } catch (e) {
-        print("Error killing Flask process: $e");
-      } finally {
-        _flaskProcess = null;
-      }
-    }
-  }
-
-  Future<String?> _getLocalIp() async {
-    try {
-      final interfaces = await NetworkInterface.list(
-        includeLoopback: false,
-        type: InternetAddressType.IPv4,
-      );
-
-      for (var interface in interfaces) {
-        for (var addr in interface.addresses) {
-          if (!addr.isLoopback) {
-            return addr.address;
-          }
-        }
-      }
-    } catch (e) {
-      print('Failed to get local IP: $e');
-    }
-    return null;
-  }
-
-  Future<int?> _findFreePort(int startPort) async {
-    for (var port = startPort; port < startPort + 100; port++) {
-      try {
-        final server = await ServerSocket.bind(InternetAddress.anyIPv4, port);
-        await server.close();
-        return port;
-      } catch (e) {
-        continue;
-      }
-    }
-    return null;
-  }
-  */
-
   @override
   Widget build(BuildContext context) {
-    final url = (_localIp != null && _port != null)
-        ? 'http://$_localIp:$_port'
-        : 'Starting server...';
+    final url = 'https://phone-drop.onrender.com';
     return Scaffold(
       appBar: AppBar(
         title: Text('Receive File'),
@@ -223,12 +121,8 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Server auto-shutdown in: ${_remaining.inMinutes.toString().padLeft(2, '0')}:${(_remaining.inSeconds % 60).toString().padLeft(2, '0')}",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'Share this QR code with your phone:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20),
                   QrImageView(data: url, size: 200),
@@ -261,8 +155,4 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
       ),
     );
   }
-}
-
-Future<Process> runProcess(String executable, List<String> args) {
-  return Process.start(executable, args);
 }

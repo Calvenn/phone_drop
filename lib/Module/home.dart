@@ -26,28 +26,6 @@ class Home extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton.icon(
-                icon: const Icon(Icons.upload_file),
-                label: const Text("Send File from Laptop"),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return Sender();
-                      },
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
                 icon: const Icon(Icons.download),
                 label: const Text("Receive File on Laptop"),
                 style: ElevatedButton.styleFrom(
@@ -63,6 +41,28 @@ class Home extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) {
                         return Receiver();
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.upload_file),
+                label: const Text("Send File from Laptop"),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return Sender();
                       },
                     ),
                   );
