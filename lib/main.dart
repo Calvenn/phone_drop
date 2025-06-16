@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:phone_drop/Module/widget/widget_tree.dart';
 import 'package:phone_drop/data/Notifier.dart';
-
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter/foundation.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  windowManager.setTitle('Phone Drop');
+
+  if (!kIsWeb) {
+    await windowManager.ensureInitialized();
+    windowManager.setTitle('Phone Drop');
+  }
+
   runApp(Main());
 }
+
 
 class Main extends StatefulWidget {
   const Main({super.key});
