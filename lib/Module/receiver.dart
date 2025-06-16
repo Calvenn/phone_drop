@@ -45,19 +45,22 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
 
   Future<void> _downloadFile() async {
     if (_localIp == null || _port == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Server not ready yet!')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Server not ready yet!')));
+      }
       return;
     }
 
-    final url = 'https://phone-drop.onrender.com/download';
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Downloading file...')));
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Downloading file...')));
+    }
 
     try {
+      final url = 'https://phone-drop.onrender.com/download';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -68,9 +71,7 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
           dir = await getApplicationDocumentsDirectory();
         }
 
-        if (dir == null) {
-          dir = await getApplicationDocumentsDirectory();
-        }
+        dir ??= await getApplicationDocumentsDirectory();
 
         String filename = 'downloaded_file';
         final contentDisposition = response.headers['content-disposition'];
@@ -83,25 +84,30 @@ class _ReceiverState extends State<Receiver> with WidgetsBindingObserver {
         }
 
         final file = File('${dir.path}/$filename');
-
         await file.writeAsBytes(response.bodyBytes);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File downloaded: ${file.path}')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('File downloaded: ${file.path}')),
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Failed to download file. Status code: ${response.statusCode}',
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Failed to download file. Status code: ${response.statusCode}',
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error during download: $e')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error during download: $e')));
+      }
     }
   }
 
